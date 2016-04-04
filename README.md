@@ -11,5 +11,4 @@ calcolano la bontà di ogni mossa.
 La partita si vince tramite lo scacho matto, oppure facendo promuovere
 un pedone, chi promuove per primo vince la partita.
 
-Nella cartella Jar si trova il file startChess.jar, che si puo' lanciare 
-e giocare da subito, provando il gioco.
+
