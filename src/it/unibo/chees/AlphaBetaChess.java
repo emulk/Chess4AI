@@ -75,10 +75,12 @@ public class AlphaBetaChess {
         }
         */
     }
+    //4 beta alpha vuoto 0
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
-        //ritorna come 1234p##########
+        //ritorna cle mosse possibili ome 1234p##########
         String list=posibleMoves();
         if (depth==0 || list.length()==0) {
+        	//se gioca l'IA ritorna un valore negativo altrimenti positivo
         	return move+(Rating.rating(list.length(), depth)*(player*2-1));
         }
         
@@ -88,6 +90,7 @@ public class AlphaBetaChess {
             makeMove(list.substring(i,i+5));
             flipBoard();
             String returnString=alphaBeta(depth-1, beta, alpha, list.substring(i,i+5), player);
+            //prende il rating della mosssa
             int value=Integer.valueOf(returnString.substring(5));
             flipBoard();
             undoMove(list.substring(i,i+5));
@@ -329,12 +332,15 @@ public class AlphaBetaChess {
     
     //ordina le mosse in base alla bontà
     public static String sortMoves(String list) {
+    	int lenLista = list.length();
         int[] score=new int [list.length()/5];
-        for (int i=0;i<list.length();i+=5) {
+        //valuta ogni mossa possibile
+        for (int i=0; i<lenLista; i+=5) {
             makeMove(list.substring(i, i+5));
             score[i/5]=-Rating.rating(-1, 0);
             undoMove(list.substring(i, i+5));
         }
+        
         String newListA="", newListB=list;
         for (int i=0;i<Math.min(6, list.length()/5);i++) {//solo le prime mose
             int max=-1000000, maxLocation=0;
@@ -345,7 +351,9 @@ public class AlphaBetaChess {
                 }
             }
             score[maxLocation]=-1000000;
+            //la mossa migliore
             newListA+=list.substring(maxLocation*5,maxLocation*5+5);
+            // rimpiazza la mossa migliore con vuoto
             newListB=newListB.replace(list.substring(maxLocation*5,maxLocation*5+5), "");
         }
         return newListA+newListB;
