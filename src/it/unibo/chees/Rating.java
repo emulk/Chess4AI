@@ -3,8 +3,9 @@ package it.unibo.chees;
 //presi da
 // http://chessprogramming.wikispaces.com/Simplified+evaluation+function
 public class Rating {
+	//i pesi per ogni pezzo
 	static int pawnBoard[][] = { 
-			{ 500, 500, 500, 500, 500, 500, 500, 500 },
+			{ 70, 70, 70, 70, 70, 70, 70, 70 },
 			{ 50, 50, 50, 50, 50, 50, 50, 50 },
 			{ 10, 10, 20, 30, 30, 20, 10, 10 }, 
 			{ 5, 5, 10, 25, 25, 10, 5, 5 },
@@ -13,34 +14,38 @@ public class Rating {
 			{ 5, 10, 10, -20, -20, 10, 10, 5 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0 } };
 
-	static int kingMidBoard[][] = { { -30, -40, -40, -50, -50, -40, -40, -30 },
-			{ -30, -40, -40, -50, -50, -40, -40, -30 },
-			{ -30, -40, -40, -50, -50, -40, -40, -30 },
-			{ -30, -40, -40, -50, -50, -40, -40, -30 },
+	static int kingMidBoard[][] = { 
+			{ -10, -20, -30, -30, -30, -30, -20, -10 },
+			{ -20, -20, -10, -10, -10, -10, -20, -20 },
+			{ -20, -20, -20, -20, -20, -20, -20, -20 },
+			{ -10, -20, -20, -30, -30, -20, -20, -10 },
 			{ -20, -30, -30, -40, -40, -30, -30, -20 },
 			{ -10, -20, -20, -20, -20, -20, -20, -10 },
-			{ 20, 20, 0, 0, 0, 0, 20, 20 }, { 20, 30, 10, 0, 0, 10, 30, 20 } };
+			{ 20, 20, 0, 0, 0, 0, 20, 20 }, 
+			{ 20, 30, 10, 0, 0, 10, 30, 20 } };
 
-	static int kingEndBoard[][] = { { -50, -40, -30, -20, -20, -30, -40, -50 },
-			{ -30, -20, -10, 0, 0, -10, -20, -30 },
+	static int kingEndBoard[][] = { 
+			{ 10, 10, 10, 0, 0, 10, 10, 10 },
+			{ 30, 20, 10, 0, 0, 10, 20, 30 },
 			{ -30, -10, 20, 30, 30, 20, -10, -30 },
-			{ -30, -10, 30, 40, 40, 30, -10, -30 },
-			{ -30, -10, 30, 40, 40, 30, -10, -30 },
+			{ -30, -10, 20, 10, 10, 20, -10, -30 },
+			{ -30, -10, 20, 10, 10, 20, -10, -30 },
 			{ -30, -10, 20, 30, 30, 20, -10, -30 },
 			{ -30, -30, 0, 0, 0, 0, -30, -30 },
 			{ -50, -30, -30, -30, -30, -30, -30, -50 } };
 
 	public static int rating(int list, int depth) {
 		int counter = 0, material = rateMaterial();
+		//controlla se il re puo essere attaccato
 		counter += rateAttack();
 		counter += material;
-		counter += rateMoveablitly(list, depth, material);
+		//counter += rateMoveablitly(list, depth, material);
 		counter += ratePositional(material);
 		AlphaBetaChess.flipBoard();
 		material = rateMaterial();
 		counter -= rateAttack();
 		counter -= material;
-		counter -= rateMoveablitly(list, depth, material);
+		//counter -= rateMoveablitly(list, depth, material);
 		counter -= ratePositional(material);
 		AlphaBetaChess.flipBoard();
 		return -(counter + depth * 50);
@@ -84,11 +89,11 @@ public class Rating {
 
 	public static int rateMoveablitly(int listLength, int depth, int material) {
 		int counter = 0;
-		counter += listLength;// 5 pointer per valid move
-		if (listLength == 0) {// current side is in checkmate or stalemate
-			if (!AlphaBetaChess.kingSafe()) {// if checkmate
+		counter += listLength;// 5 per ogni mossa valida
+		if (listLength == 0) {// checkmate or stalemate
+			if (!AlphaBetaChess.kingSafe()) {// scacco matto
 				counter += -200000 * depth;
-			} else {// if stalemate
+			} else {// stalemate: finisce pari
 				counter += -150000 * depth;
 			}
 		}

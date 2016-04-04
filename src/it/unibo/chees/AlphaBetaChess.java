@@ -7,15 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /*
- * PIECE=WHITE/black
- * pawn=P/p
- * King=A/a
+ * peci=BIANCHI/neri
+ * pedoni=P/p
+ * re=A/a
 
  * 
  * (1234p rappresenta riga1,colonna2 muove in riga3, colonna4 e mangia p (uno spazio sinifica che non mangio nulla))
  */
 public class AlphaBetaChess {
-	//schacchiera iniziale
+	//schacchiera iniziale, matrice contenente tutti i pezzi
 	static String chessBoard[][]={
         {" "," "," ","a"," "," "," "," "},
         {"p","p","p","p","p","p","p","p"},
@@ -25,9 +25,12 @@ public class AlphaBetaChess {
         {" "," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {" "," "," "," ","A"," "," "," "}};
+	//posizione del re bianco
     static int kingPositionC=0;
+    //posizione del re nero
     static int kingPositionL=0;
-    static int humanAsWhite =0;//1=human as white, 0=human as black
+    //1 gioca prima il bianco, 0 gioca prima il nero
+    static int humanAsWhite =0;
     static int globalDepth=4;
     public static void main(String[] args) {
     	//Ciclo la matrice per trovare la posizione dei re
@@ -47,15 +50,18 @@ public class AlphaBetaChess {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UserInterface ui=new UserInterface();
         f.add(ui);
+        //dimensione della schachiera
         f.setSize(720, 750);
         f.setVisible(true);
         
-        System.out.println(sortMoves(posibleMoves()));
+        //System.out.println(sortMoves(posibleMoves()));
         Object[] option={"Computer","Umano"};
         humanAsWhite=JOptionPane.showOptionDialog(null, "Chi muove prima?", "Opzioni", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, option, option[1]);
         if (humanAsWhite==0) {
+        	//muovono prima i neri
             //long startTime=System.currentTimeMillis();
+        	// beta + infinito, alpha= -infinito
             makeMove(alphaBeta(globalDepth, 1000000, -1000000, "", 0));
             //long endTime=System.currentTimeMillis();
             //System.out.println("That took "+(endTime-startTime)+" milliseconds");
@@ -70,7 +76,7 @@ public class AlphaBetaChess {
         */
     }
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
-        //return in the form of 1234b##########
+        //ritorna come 1234p##########
         String list=posibleMoves();
         if (depth==0 || list.length()==0) {
         	return move+(Rating.rating(list.length(), depth)*(player*2-1));
@@ -182,6 +188,7 @@ public class AlphaBetaChess {
         kingPositionL=63-kingTemp;
     }
     
+    //fa una mossa
     public static void makeMove(String move) {
         if (move.charAt(4)!='P') {
             chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))]=chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))];
@@ -220,7 +227,7 @@ public class AlphaBetaChess {
                     break;
             }
         }
-        return list;//x1,y1,x2,y2,captured piece
+        return list;//x1,y1,x2,y2,pezzo
     }
     public static String posibleP(int i) {
         String list="", oldPiece;
@@ -320,6 +327,7 @@ public class AlphaBetaChess {
         return list;
     }
     
+    //ordina le mosse in base alla bontà
     public static String sortMoves(String list) {
         int[] score=new int [list.length()/5];
         for (int i=0;i<list.length();i+=5) {

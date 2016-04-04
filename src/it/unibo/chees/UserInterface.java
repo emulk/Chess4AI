@@ -37,8 +37,8 @@ public class UserInterface extends JPanel implements MouseListener,
 
 		Image chessPiecesImage;
 		chessPiecesImage = new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/ChessPieces.png").getImage();
-		Image whitePawn =  new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/whitePawn.png").getImage();
-				//
+		//Image whitePawn =  new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/whitePawn.png").getImage();
+				
 
 
 		for (int i=0;i<64;i++) {
@@ -71,6 +71,7 @@ public class UserInterface extends JPanel implements MouseListener,
         }
     }
     
+    //rilascio il pezzo
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
