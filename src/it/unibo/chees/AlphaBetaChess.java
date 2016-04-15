@@ -93,8 +93,10 @@ public class AlphaBetaChess {
         	return move+(Rating.rating(list.length(), depth)*(player*2-1));
         }
         
+        //ordina le mosse a seconda della loro bontà
         list=sortMoves(list);
         player=1-player;//1 umano 0 computer
+        //cicla tutta la lista delle mosse
         for (int i=0;i<list.length();i+=5) {
             makeMove(list.substring(i,i+5));
             flipBoard();
@@ -103,6 +105,7 @@ public class AlphaBetaChess {
             int value=Integer.valueOf(returnString.substring(5));
             flipBoard();
             undoMove(list.substring(i,i+5));
+            //computer
             if (player==0) {
                 if (value <= beta) {
                 	beta=value; 
@@ -127,6 +130,7 @@ public class AlphaBetaChess {
             }
         }
         
+        //computer
         if (player==0) {
         	return move+beta;
         } else {

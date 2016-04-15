@@ -45,26 +45,64 @@ public class UserInterface extends JPanel implements MouseListener,
 //		System.out.println(getClass().getResource("/ChessPieces.png"));
 //		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
 		final Image chessPiecesImage;
+		final Image chessPawnWhite;
+		final Image chessPawnBlack;
+		final Image chessKingWhite;
+		final Image chessKingBlack;
 		//System.out.println(getClass().getResource("/Chess_Icon.png"));
 		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
+		chessPawnWhite = new ImageIcon(getClass().getResource("/whitePawn.png")).getImage();
+		chessPawnBlack = new ImageIcon(getClass().getResource("/blackPawn.png")).getImage();
+		chessKingWhite = new ImageIcon(getClass().getResource("/whiteKing.png")).getImage();
+		chessKingBlack = new ImageIcon(getClass().getResource("/blackKing.png")).getImage();
 		//Image whitePawn =  new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/whitePawn.png").getImage();
 				
 
 
 		for (int i=0;i<64;i++) {
             int j=-1,k=-1;
+            int img = 0;
             switch (AlphaBetaChess.chessBoard[i/8][i%8]) {
-                case "P": j=5; k=0;
+                case "P": 
+                	j=5; 
+                	k=0;
+                	img=1;
                     break;
-                case "p": j=5; k=1;
+                case "p": 
+                	j=5; 
+                	k=1;
+                	img=2;
                     break;
-                case "A": j=0; k=0;
+                case "A": 
+                	j=0; 
+                	k=0;
+                	img=3;
                     break;
-                case "a": j=0; k=1;
+                case "a": 
+                	j=0; 
+                	k=1;
+                	img=4;
                     break;
             }
             if (j!=-1 && k!=-1) {
-                g.drawImage(chessPiecesImage, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, j*64, k*64, (j+1)*64, (k+1)*64, this);
+            	//disegno tutti i pezzi
+            	if (img == 1){
+            		g.drawImage(chessPawnWhite, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, 0, 0, 260, 260, this);
+            		img=0;
+            	}else if(img == 2) {
+            		g.drawImage(chessPawnBlack, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, 0, 0, 260, 260, this);
+            		img=0;
+            	}else if(img == 3){
+            		g.drawImage(chessKingWhite, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, 0, 0, 260, 260, this);
+            		img=0;
+            	}
+            	else if(img == 4){
+            		g.drawImage(chessKingBlack, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, 0, 0, 260, 260, this);
+            		img=0;
+            	}else {
+            		g.drawImage(chessPiecesImage, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, j*64, k*64, (j+1)*64, (k+1)*64, this);
+            
+            	}
             }
         }
     }
