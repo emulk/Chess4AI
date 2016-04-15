@@ -1,8 +1,11 @@
 package it.unibo.chees;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.Arrays;
 import java.util.Scanner;
-
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -45,8 +48,14 @@ public class AlphaBetaChess {
     		}
     	}
 
+    	final ImageIcon iconimage;
+		iconimage = new ImageIcon(AlphaBetaChess.class.getResource("/Chess_Icon.png"));
+		//iconimage= UserInterface.getScaledImage(iconimage, 50, 50);
         //titolo window
         JFrame f=new JFrame("Chess4AI");
+        //Jframe icon
+        f.setIconImage(iconimage.getImage());
+        //f.setIconImage(Toolkit.getDefaultToolkit().getImage("/Chess_Icon.png"));
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UserInterface ui=new UserInterface();
         f.add(ui);
@@ -57,7 +66,7 @@ public class AlphaBetaChess {
         //System.out.println(sortMoves(posibleMoves()));
         Object[] option={"Computer","Umano"};
         humanAsWhite=JOptionPane.showOptionDialog(null, "Chi muove prima?", "Opzioni", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, option, option[1]);
+                JOptionPane.QUESTION_MESSAGE, iconimage, option, option[1]);
         if (humanAsWhite==0) {
         	//muovono prima i neri
             //long startTime=System.currentTimeMillis();
@@ -77,7 +86,7 @@ public class AlphaBetaChess {
     }
     //4 beta alpha vuoto 0
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
-        //ritorna cle mosse possibili ome 1234p##########
+        //ritorna le mosse possibili come 1234p##########
         String list=posibleMoves();
         if (depth==0 || list.length()==0) {
         	//se gioca l'IA ritorna un valore negativo altrimenti positivo
@@ -276,7 +285,6 @@ public class AlphaBetaChess {
         try {//promotion && no capture
 
             if (" ".equals(chessBoard[r-1][c]) && i<16) {
-                String[] temp={"Q","R","B","K"};
                 for (int k=0; k<4; k++) {
                 	oldPiece=chessBoard[r-1][c];
                     chessBoard[r][c]=" ";

@@ -2,8 +2,12 @@ package it.unibo.chees;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,9 +38,15 @@ public class UserInterface extends JPanel implements MouseListener,
 			g.fillRect(((i + 1) % 8 - ((i + 1) / 8) % 2) * squareSize,
 					((i + 1) / 8) * squareSize, squareSize, squareSize);
 		}
+		
 
-		Image chessPiecesImage;
-		chessPiecesImage = new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/ChessPieces.png").getImage();
+
+//		final ImageIcon chessPiecesImage;
+//		System.out.println(getClass().getResource("/ChessPieces.png"));
+//		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
+		final Image chessPiecesImage;
+		//System.out.println(getClass().getResource("/Chess_Icon.png"));
+		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
 		//Image whitePawn =  new ImageIcon("/home/asd/EclipseWorkspace/Chess4AI/IMG/whitePawn.png").getImage();
 				
 
@@ -58,6 +68,18 @@ public class UserInterface extends JPanel implements MouseListener,
             }
         }
     }
+	
+	public Image getScaledImage(Image srcImg, int w, int h){
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, w, h, null);
+	    g2.dispose();
+
+	    return resizedImg;
+	}
+	
     @Override
     public void mouseMoved(MouseEvent e) {}
     
