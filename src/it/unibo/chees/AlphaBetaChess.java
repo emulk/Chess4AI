@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class AlphaBetaChess {
 	//schacchiera iniziale, matrice contenente tutti i pezzi
 	static String chessBoard[][]={
-        {" "," "," ","a"," "," "," "," "},
+        {" "," "," "," ","a"," "," "," "},
         {"p","p","p","p","p","p","p","p"},
         {" "," "," "," "," "," "," "," "},
         {" "," "," "," "," "," "," "," "},
@@ -36,6 +36,10 @@ public class AlphaBetaChess {
     static int humanAsWhite =0;
     static int globalDepth=4;
     public static void main(String[] args) {
+    	//icona
+    	final  ImageIcon iconimage;
+    	iconimage = new ImageIcon(AlphaBetaChess.class.getResource("/Chess_Icon.png"));
+    	
     	//Ciclo la matrice per trovare la posizione dei re
     	for(int i =0; i<8; i++){
     		for(int j=0; j<8; j++){
@@ -47,10 +51,7 @@ public class AlphaBetaChess {
     			}
     		}
     	}
-
-    	final ImageIcon iconimage;
-		iconimage = new ImageIcon(AlphaBetaChess.class.getResource("/Chess_Icon.png"));
-		//iconimage= UserInterface.getScaledImage(iconimage, 50, 50);
+		
         //titolo window
         JFrame f=new JFrame("Chess4AI");
         //Jframe icon
@@ -84,7 +85,7 @@ public class AlphaBetaChess {
         }
         */
     }
-    //4 beta alpha vuoto 0
+    //beta alpha vuoto 0
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
         //ritorna le mosse possibili come 1234p##########
         String list=posibleMoves();
@@ -136,19 +137,23 @@ public class AlphaBetaChess {
         } else {
         	return move+alpha;
         }
-
+       
     }
     
     //indicano quando i neri vincono
     public static void blackWins(){
+    	final  ImageIcon iconimage;
+		iconimage = new ImageIcon(AlphaBetaChess.class.getResource("/Chess_Icon.png"));
     	for(int j=0; j< 8; j++){
         	if("p".equals(chessBoard[7][j])){
-        		JOptionPane.showMessageDialog(null, "Hai Perso!");
-        		System.out.println("I Neri hanno vinto");
+        		JOptionPane.showConfirmDialog(null, "Hai Perso", "Hai Perso", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, iconimage);
+            	System.out.println("I Neri hanno vinto");
         		System.exit(0);
         	}else if("p".equals(chessBoard[7][j]) && " ".equals(chessBoard[7][j])){
         		//se sono nella riga 6 ma non ho nessuno davanti ho vinto lo stesso
-        		JOptionPane.showMessageDialog(null, "Hai Perso!");
+        		//JOptionPane.showMessageDialog(null, "Hai Perso!");
+        		JOptionPane.showConfirmDialog(null, "Hai Perso", "Hai Perso", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, iconimage);
+            	
         		System.out.println("I Neri hanno vinto");
         		System.exit(0);
         	}

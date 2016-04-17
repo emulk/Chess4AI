@@ -25,10 +25,16 @@ public class UserInterface extends JPanel implements MouseListener,
 
 	@Override
 	public void paintComponent(Graphics g) {
+		final Image chessPiecesImage;
+		final Image chessPawnWhite;
+		final Image chessPawnBlack;
+		final Image chessKingWhite;
+		final Image chessKingBlack;
 		super.paintComponent(g);
 		this.setBackground(Color.blue);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		
 		// disegna la scachiera
 		for (int i = 0; i < 64; i += 2) {
 			g.setColor(new Color(255, 200, 100));
@@ -44,11 +50,7 @@ public class UserInterface extends JPanel implements MouseListener,
 //		final ImageIcon chessPiecesImage;
 //		System.out.println(getClass().getResource("/ChessPieces.png"));
 //		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
-		final Image chessPiecesImage;
-		final Image chessPawnWhite;
-		final Image chessPawnBlack;
-		final Image chessKingWhite;
-		final Image chessKingBlack;
+
 		//System.out.println(getClass().getResource("/Chess_Icon.png"));
 		chessPiecesImage = new ImageIcon(getClass().getResource("/ChessPieces.png")).getImage();
 		chessPawnWhite = new ImageIcon(getClass().getResource("/whitePawn.png")).getImage();
@@ -134,6 +136,8 @@ public class UserInterface extends JPanel implements MouseListener,
     //rilascio il pezzo
     @Override
     public void mouseReleased(MouseEvent e) {
+    	final  ImageIcon iconimage;
+		iconimage = new ImageIcon(AlphaBetaChess.class.getResource("/Chess_Icon.png"));
         if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
             //se sono dentro la sacchiera
             newMouseX=e.getX();
@@ -145,8 +149,10 @@ public class UserInterface extends JPanel implements MouseListener,
                 	dragMove=""+mouseY/squareSize+mouseX/squareSize+newMouseY/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize];
                     AlphaBetaChess.makeMove(dragMove);
                     repaint();
-                	JOptionPane.showMessageDialog(null, "Hai Vinto!");
+                    //JOptionPane.showMessageDialog(null, "Hai Vinto!", "Hai Vinto!", null, iconimage);
+                	//JOptionPane.showMessageDialog(null, "Hai Vinto!");
                 	System.out.println("Hai vinto!");
+                	JOptionPane.showConfirmDialog(null, "Hai Vinto", "Vittoria", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, iconimage);
                 	System.exit(0);
                 } else {
                     //regular move
